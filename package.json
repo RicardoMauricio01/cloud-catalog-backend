@@ -17,5 +17,17 @@
   "devDependencies": {
     "nodemon": "^3.1.14",
     "cross-env": "^7.0.3"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RicardoMauricio01/cloud-catalog-backend.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/RicardoMauricio01/cloud-catalog-backend/issues"
+  },
+  "homepage": "https://github.com/RicardoMauricio01/cloud-catalog-backend#readme",
+  "description": ""
 }
