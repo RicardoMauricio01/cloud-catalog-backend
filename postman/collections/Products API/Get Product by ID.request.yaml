@@ -1,0 +1,23 @@
+$kind: http-request
+name: Get Product by ID
+method: GET
+url: 'http://localhost:3000/api/products/{{productId}}'
+description: Retrieve a single product by its ID
+order: 3000
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("Status code is 200", function () {
+        pm.response.to.have.status(200);
+      });
+      pm.test("Response has correct product fields", function () {
+        const json = pm.response.json();
+        pm.expect(json).to.have.property("id");
+        pm.expect(json).to.have.property("nombre");
+        pm.expect(json).to.have.property("precio");
+        pm.expect(json).to.have.property("stock");
+      });
+      pm.test("Response time is less than 2000ms", function () {
+        pm.expect(pm.response.responseTime).to.be.below(2000);
+      });
