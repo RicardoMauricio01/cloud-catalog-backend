@@ -9,7 +9,10 @@ exports.getProducts = async () => {
         ORDER BY id ASC
     `);
 
-    return result.rows;
+    return result.rows.map((product) => ({
+        ...product,
+        precio: Number(product.precio),
+    }));
 };
 
 // GET uno
@@ -23,7 +26,14 @@ exports.getProductById = async (id) => {
         [id]
     );
 
-    return result.rows[0];
+    if (result.rows.length === 0) {
+        return null;
+    }
+
+    return {
+        ...result.rows[0],
+        precio: Number(result.rows[0].precio),
+    };
 };
 
 // POST
@@ -32,8 +42,7 @@ exports.createProduct = async (data) => {
 
     const result = await pool.query(
         `
-        INSERT INTO productos
-        (
+        INSERT INTO productos (
             nombre,
             descripcion,
             precio,
@@ -46,7 +55,10 @@ exports.createProduct = async (data) => {
         [nombre, descripcion, precio, stock, imagen_url]
     );
 
-    return result.rows[0];
+    return {
+        ...result.rows[0],
+        precio: Number(result.rows[0].precio),
+    };
 };
 
 // PUT
@@ -69,7 +81,14 @@ exports.updateProduct = async (id, data) => {
         [nombre, descripcion, precio, stock, imagen_url, id]
     );
 
-    return result.rows[0];
+    if (result.rows.length === 0) {
+        return null;
+    }
+
+    return {
+        ...result.rows[0],
+        precio: Number(result.rows[0].precio),
+    };
 };
 
 // DELETE lógico
