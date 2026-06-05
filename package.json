@@ -1,21 +1,21 @@
 {
-  "name": "backend",
+  "name": "backend-chat-corporativo",
   "version": "1.0.0",
+  "description": "Backend del taller 01 organizado por capas",
   "main": "server.js",
   "scripts": {
-    "dev": "nodemon server.js",
     "start": "node server.js",
-    "prod": "cross-env NODE_ENV=production node server.js"
+    "dev": "nodemon server.js"
   },
   "dependencies": {
-    "bcrypt": "^6.0.0",
-    "cors": "^2.8.6",
-    "dotenv": "^17.4.2",
-    "express": "^5.2.1",
-    "pg": "^8.20.0"
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "pg": "^8.11.5",
+    "socket.io": "^4.7.5"
   },
   "devDependencies": {
-    "nodemon": "^3.1.14",
-    "cross-env": "^7.0.3"
+    "nodemon": "^3.1.0"
   }
 }
