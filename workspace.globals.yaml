@@ -1,6 +1,0 @@
-$kind: collection
-name: Products API
-description: Collection for testing the Products API endpoints at http://localhost:3000/api/products
-variables:
-  newProductId: ""
-  productId: ""
