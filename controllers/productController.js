@@ -1,90 +1,62 @@
-const productService = require("../services/productService");
+const ProductService = require("../services/productService");
+const ProductDto = require("../dtos/productDto");
 
-// GET todos
 exports.getProducts = async (req, res) => {
     try {
-        const products = await productService.getProducts();
-
-        res.json(products);
+        const products = await ProductService.getAll();
+        res.json(ProductDto.list(products));
     } catch (err) {
         console.error(err);
-
-        res.status(500).json({
-            error: "Error obteniendo productos",
-        });
+        res.status(500).json({ error: "Error obteniendo productos" });
     }
 };
 
-// GET por ID
 exports.getProductById = async (req, res) => {
     try {
-        const { id } = req.params;
-
-        const product = await productService.getProductById(id);
+        const product = await ProductService.getById(req.params.id);
 
         if (!product) {
-            return res.status(404).json({
-                error: "Producto no encontrado",
-            });
+            return res.status(404).json({ error: "Producto no encontrado" });
         }
 
-        res.json(product);
+        res.json(ProductDto.single(product));
     } catch (err) {
         console.error(err);
-
-        res.status(500).json({
-            error: "Error obteniendo producto",
-        });
+        res.status(500).json({ error: "Error obteniendo producto" });
     }
 };
 
-// POST
 exports.createProduct = async (req, res) => {
     try {
-        const product = await productService.createProduct(req.body);
-
-        res.status(201).json(product);
+        const product = await ProductService.create(req.body);
+        res.status(201).json(ProductDto.single(product));
     } catch (err) {
         console.error(err);
-
-        res.status(500).json({
-            error: "Error creando producto",
-        });
+        res.status(500).json({ error: "Error creando producto" });
     }
 };
 
-// PUT
 exports.updateProduct = async (req, res) => {
     try {
-        const { id } = req.params;
+        const updated = await ProductService.update(req.params.id, req.body);
 
-        const updated = await productService.updateProduct(id, req.body);
+        if (!updated) {
+            return res.status(404).json({ error: "Producto no encontrado" });
+        }
 
-        res.json(updated);
+        res.json(ProductDto.single(updated));
     } catch (err) {
         console.error(err);
-
-        res.status(500).json({
-            error: "Error actualizando producto",
-        });
+        res.status(500).json({ error: "Error actualizando producto" });
     }
 };
 
-// DELETE lógico
 exports.deleteProduct = async (req, res) => {
     try {
-        const { id } = req.params;
-
-        await productService.deleteProduct(id);
-
-        res.json({
-            ok: true,
-        });
+        await ProductService.delete(req.params.id);
+        res.json({ ok: true });
     } catch (err) {
         console.error(err);
-
-        res.status(500).json({
-            error: "Error eliminando producto",
-        });
+        res.status(500).json({ error: "Error eliminando producto" });
     }
 };
