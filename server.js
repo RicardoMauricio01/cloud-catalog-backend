@@ -8,6 +8,7 @@ const pool = require("./config/db");
 // routes
 const testRoutes = require("./routes/testRoutes");
 const productRoutes = require("./routes/productRoutes");
+const authRoutes = require("./routes/authRoutes");
 
 const app = express();
 
@@ -18,6 +19,7 @@ app.use(express.json());
 // routes
 app.use("/", testRoutes);
 app.use("/api/products", productRoutes);
+app.use("/api/auth"), authRoutes);
 
 const PORT = process.env.PORT || 3000;
 
