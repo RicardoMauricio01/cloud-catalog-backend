@@ -38,7 +38,8 @@ exports.getProductById = async (id) => {
 
 // POST
 exports.createProduct = async (data) => {
-    const { nombre, descripcion, precio, stock, imagen_url, categoria_id } = data;
+    const { nombre, descripcion, precio, stock, imagen_url } = data;
+
     const result = await pool.query(
         `
         INSERT INTO productos (
@@ -46,13 +47,13 @@ exports.createProduct = async (data) => {
             descripcion,
             precio,
             stock,
-            imagen_url,
-            categoria_id
+            imagen_url
         )
-        VALUES ($1,$2,$3,$4,$5,$6)
+        VALUES ($1,$2,$3,$4,$5)
         RETURNING *
         `,
-        [nombre, descripcion, precio, stock, imagen_url, categoria_id]);
+        [nombre, descripcion, precio, stock, imagen_url]
+    );
 
     return {
         ...result.rows[0],
@@ -62,11 +63,7 @@ exports.createProduct = async (data) => {
 
 // PUT
 exports.updateProduct = async (id, data) => {
-    const { nombre, descripcion, precio, stock, imagen_url, categoria_id } = data;
-    
-    if (imagen_url) {
-        data.imagen_url = imagen_url;
-    }
+    const { nombre, descripcion, precio, stock, imagen_url } = data;
 
     const result = await pool.query(
         `
@@ -76,13 +73,12 @@ exports.updateProduct = async (id, data) => {
             descripcion = $2,
             precio = $3,
             stock = $4,
-            imagen_url = COALESCE(NULLIF($5, ''), imagen_url),
-            categoria_id = $6,
+            imagen_url = $5,
             updated_at = NOW()
-        WHERE id = $7
+        WHERE id = $6
         RETURNING *
         `,
-        [nombre, descripcion, precio, stock, imagen_url, categoria_id, id]
+        [nombre, descripcion, precio, stock, imagen_url, id]
     );
 
     if (result.rows.length === 0) {
